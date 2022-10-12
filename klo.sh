@@ -47,6 +47,23 @@ klo()
 
   if [[ ! -z $POD ]]; then
     local host=$(kubectl get pods | awk -v pod=$POD '$1 ~ pod {print $1}') 
+    local count=$(kubectl get pods | awk -v pod=$POD '$1 ~ pod {print $1}' | wc -l) 
+   
+    # if awk returns more than one pod ask the user to choose 
+    if [[ $count -ne 1 ]]; then
+      echo "You must choose, but choose wisely:"
+      select h i $host; do 
+        if [ 1 -le "$REPLY" ] && [ "$REPLY" -le $count]; then
+          k8_options+=" $h"
+          break;
+        else
+          echo "You have chosen poorly: Select any number from 1-$count"
+        fi 
+      done
+    else
+      k8_options+=" $host"
+    fi
+
     k8_options+=" $host"
   fi
 
