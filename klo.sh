@@ -52,7 +52,7 @@ klo()
     # if awk returns more than one pod ask the user to choose 
     if [[ $count -ne 1 ]]; then
       echo "You must choose, but choose wisely:"
-      select h i $host; do 
+      select h in $host; do 
         if [ 1 -le "$REPLY" ] && [ "$REPLY" -le $count]; then
           k8_options+=" $h"
           break;
