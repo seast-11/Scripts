@@ -1,0 +1,15 @@
+[Unit]
+Description = Doorbell Turkade Bluetooth Jawn
+After=network-online.target multi-user.target
+
+[Service]
+Type = simple
+User = skynet
+WorkingDirectory = /home/skynet/scripts
+ExecStart = /home/skynet/scripts/doorbell.sh
+Restart = on-failure
+TimeoutSec = 15
+SuccessExistStatus =0 143
+
+[Install]
+WantedBy = multi-user.target
